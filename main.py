@@ -6,6 +6,9 @@ from rss_parser import fetch_latest_papers
 from summarizer import summarize_papers
 from email_sender import send_email
 from email_sender import extract_text_from_arxiv_pdf
+import logging
+
+logging.getLogger("pdfminer").setLevel(logging.ERROR)
 
 def main():
     try:
