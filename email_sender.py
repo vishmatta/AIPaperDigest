@@ -21,6 +21,8 @@ def format_papers_html(papers):
         title = paper.get("title", "No Title")
         summary = paper.get("gpt_summary") or paper.get("summary", "No Summary")
         link = paper.get("link", "#")
+        tags = paper.get("tags", [])
+        tags_str = ", ".join(tags) if tags else "No tags"
         # Split summary into lines for bullet points
         bullets = ""
         for line in summary.splitlines():
@@ -32,6 +34,7 @@ def format_papers_html(papers):
         html += f"""
         <li>
             <strong>{title}</strong><br>
+            <em>Tags: {tags_str}</em><br>
             <ul>{bullets}</ul>
             <a href="{link}">Read more</a>
         </li>
