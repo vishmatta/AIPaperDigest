@@ -3,7 +3,7 @@ name: Run AI Paper Digest
 on:
   schedule:
     # 7 AM CST = 13:00 UTC (CST is UTC-6, no daylight savings)
-    - cron: '0 13 * * *'
+    - cron: '0 13 * * 1-5'
   workflow_dispatch:
 
 jobs:
