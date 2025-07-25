@@ -64,21 +64,24 @@ def summarize_and_tag_text(text: str) -> Tuple[str, List[str]]:
 def summarize_papers(papers):
     """
     For each paper, extract the full text, generate a summary and tags in a single API call,
-    and add them to the paper dict.
+    and add them to the paper dict. Also, add a 'summary_source' field indicating PDF or abstract.
     """
     summarized_papers = []
     for paper in papers:
+        used_pdf = True
         try:
             full_text = extract_text_from_arxiv_pdf(paper.get("link", ""))
             max_length = 10000
             full_text = full_text[:max_length]
         except Exception as e:
-            print(f"Failed to extract full text for {paper.get('title', 'No Title')}: {e}")
+            print(f"[ERROR] Failed to extract full text for {paper.get('title', 'No Title')}: {e}")
             full_text = paper.get("summary", "")
+            used_pdf = False
         gpt_summary, tags = summarize_and_tag_text(full_text)
         new_paper = paper.copy()
         new_paper["gpt_summary"] = gpt_summary
         new_paper["tags"] = tags
+        new_paper["summary_source"] = "PDF" if used_pdf else "Abstract"
         summarized_papers.append(new_paper)
     return summarized_papers
 
